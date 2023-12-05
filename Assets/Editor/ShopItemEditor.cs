@@ -2,28 +2,26 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(ShopItem))]
-public class ShopItemEditor : Editor
+[CustomEditor(typeof(ShopInventory))]
+public class ShopInventoryEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
-        ShopItem shopItem = ((MonoBehaviour)target).GetComponent<ShopItem>();
+        ShopInventory shopInventory = (ShopInventory)target;
 
-        if (GUILayout.Button("Add to Shop Inventory"))
+        if (GUILayout.Button("Print Item Details to Console"))
         {
-            ShopInventory shopInventory = AssetDatabase.LoadAssetAtPath<ShopInventory>("Assets/Scripts/ShopInventory.asset");
+            PrintItemDetails(shopInventory);
+        }
+    }
 
-            if (shopInventory != null)
-            {
-                shopInventory.AddShopItem(shopItem);
-                Debug.Log("Shop item added to the inventory.");
-            }
-            else
-            {
-                Debug.LogWarning("ShopInventory asset not found. Make sure it is located at the correct path.");
-            }
+    private void PrintItemDetails(ShopInventory shopInventory)
+    {
+        foreach (var shopItem in shopInventory.ShopItems)
+        {
+            Debug.Log($"Item Name: {shopItem.ItemName}, Price: {shopItem.Price}, Description: {shopItem.Description}, Category: {shopItem.Category}");
         }
     }
 }
