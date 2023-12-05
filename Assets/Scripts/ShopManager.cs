@@ -1,17 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
-    public ShopItemSO[] shopItems;
+    [SerializeField]
+    private ShopInventory shopInventory;
 
-    void Start()
+    public void AddShopItem(ShopItem shopItem)
     {
-        foreach (var itemSO in shopItems)
+        if (shopInventory != null)
         {
-            ShopItem item = itemSO.shopItemData;
-            Debug.Log($"Item Name: {item.itemName}, Price: {item.price}, Description: {item.description}");
+            shopInventory.AddShopItem(shopItem);
+            Debug.Log("Shop item added to the inventory.");
+        }
+        else
+        {
+            Debug.LogWarning("ShopInventory not assigned in the ShopManager.");
         }
     }
 }
